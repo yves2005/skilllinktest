@@ -1,0 +1,10 @@
+{
+  "projectId": "skilllinkweb",
+  "appId": "1:128875156269:web:d9bd945277c66ad021f9a4",
+  "apiKey": "AIzaSyANZsqowuOZOgXKsphWU3ya5vb4uaNPqhg",
+  "authDomain": "skilllinkweb.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "skilllinkweb.firebasestorage.app",
+  "messagingSenderId": "128875156269",
+  "measurementId": "G-XTF6FR4BQ3"
+}

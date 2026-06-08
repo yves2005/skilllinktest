@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Information about users and freelancers",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique Firebase Auth identifier of the user" },
+        "displayName": { "type": "string", "description": "Name of the user" },
+        "email": { "type": "string", "description": "Email address of the user" },
+        "role": { "type": "string", "description": "Role of the user, e.g., 'client' or 'freelance'", "enum": ["client", "freelance"] },
+        "isAvailable": { "type": "boolean", "description": "Availability status of the freelancer" },
+        "title": { "type": "string", "description": "Freelancer job title" },
+        "location": { "type": "string", "description": "Geographical location" },
+        "tjm": { "type": "number", "description": "Daily rate in Euros" },
+        "bio": { "type": "string", "description": "Professional bio of the user" },
+        "skills": { "type": "array", "description": "List of core skills" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "Services published in the marketplace",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Service document identifier" },
+        "title": { "type": "string", "description": "Service title" },
+        "category": { "type": "string", "description": "Marketplace category, e.g., Code, Design, Marketing" },
+        "price": { "type": "string", "description": "Price descriptor" },
+        "délai": { "type": "string", "description": "Delivery turnaround description" },
+        "auteur": { "type": "string", "description": "Name of the author freelancer" },
+        "rating": { "type": "number", "description": "Rating of the service" },
+        "img": { "type": "string", "description": "Illustration cover image URL" },
+        "authorId": { "type": "string", "description": "The user id of the publishing freelancer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "category", "price", "délai", "auteur", "authorId"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "A conversation between a client and a freelancer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique thread id" },
+        "participants": { "type": "array", "description": "User IDs of participants in the chat" },
+        "lastMessageText": { "type": "string", "description": "Text of the last message sent" },
+        "lastMessageTime": { "type": "string", "description": "Local formatted time of the last message" },
+        "lastMessageTimestamp": { "type": "string", "format": "date-time", "description": "Server timestamp of the last message" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participants", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Individual message inside a chat thread",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string", "description": "Content of the message" },
+        "senderId": { "type": "string", "description": "UID of the message sender" },
+        "senderName": { "type": "string", "description": "Name of the message sender" },
+        "time": { "type": "string", "description": "Formatted short localized time" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "attachmentUrl": { "type": "string", "description": "Optional attachment secure download link" },
+        "attachmentName": { "type": "string", "description": "Optional attachment visual filename name" }
+      },
+      "required": ["text", "senderId", "timestamp"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Project orders and progress tracking between clients and freelancers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique project code identifier" },
+        "title": { "type": "string", "description": "Project title" },
+        "freelance": { "type": "string", "description": "Name of the freelancer" },
+        "freelanceId": { "type": "string", "description": "User ID of the freelancer" },
+        "clientId": { "type": "string", "description": "User ID of the client" },
+        "serviceId": { "type": "string", "description": "The service index references" },
+        "status": { "type": "string", "description": "Project progress state", "enum": ["in-progress", "validation", "completed"] },
+        "date": { "type": "string", "description": "Creation date formatted" },
+        "lastUpdate": { "type": "string", "description": "Summary of the last update message" },
+        "price": { "type": "string", "description": "Agreed project fee" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "freelanceId", "clientId", "status", "price"]
+    },
+    "SecurityLog": {
+      "title": "SecurityLog",
+      "description": "Security events and logins",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique log id" },
+        "userId": { "type": "string", "description": "UID of the user associated with this action" },
+        "date": { "type": "string", "description": "Human dates formatted" },
+        "event": { "type": "string", "description": "Event description text" },
+        "status": { "type": "string", "description": "Log state, e.g. Sécurisé, Autorisé, Danger", "enum": ["Sécurisé", "Autorisé", "Avertissement", "Danger", "Activation", "Succès"] },
+        "ip": { "type": "string", "description": "IP of client source" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "date", "event", "status", "ip"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "services": {
+      "schema": "Service",
+      "description": "Freelancer marketplace services"
+    },
+    "conversations": {
+      "schema": "Conversation",
+      "description": "Active chatting sessions"
+    },
+    "conversations/{conversationId}/messages": {
+      "schema": "Message",
+      "description": "Messages inside each conversation"
+    },
+    "projects": {
+      "schema": "Project",
+      "description": "Projects and transaction items"
+    },
+    "security_logs": {
+      "schema": "SecurityLog",
+      "description": "Log of critical modifications and events"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+/**
+ * Structure de Projet Recommandée pour SkillLink
+ * (JavaScript Frontend + Python Backend)
+ * 
+ * Cette architecture sépare clairement la charge client (SPA) 
+ * et la logique serveur (API Python).
+ * 
+ * /skilllink-project
+ * │
+ * ├── /frontend                  # ----- APPLICATION FRONTEND (SPA Vanilla JS) -----
+ * │   ├── index.html             # Point d'entrée principal de la SPA
+ * │   ├── package.json           # Dépendances outils (Vite, Tailwind, etc.)
+ * │   ├── vite.config.js         # Configuration du bundler pour le dev/prod
+ * │   │
+ * │   ├── /src
+ * │   │   ├── app.js             # Logique centrale: État global (AppState), Routeur
+ * │   │   ├── styles.css         # Import Tailwind et styles globaux personnalisés
+ * │   │   │
+ * │   │   ├── /components        # Composants d'interface (Générateurs HTML)
+ * │   │   │   ├── Navbar.js
+ * │   │   │   ├── ServiceCard.js
+ * │   │   │   └── ChatBubble.js
+ * │   │   │
+ * │   │   ├── /views             # Vues entières de la SPA
+ * │   │   │   ├── HomeView.js
+ * │   │   │   ├── LoginView.js
+ * │   │   │   ├── ProfilView.js
+ * │   │   │   └── TrackingView.js
+ * │   │   │
+ * │   │   ├── /services          # Couche d'accès API (Fetch)
+ * │   │   │   ├── api.js         # Configuration et appels au backend Python
+ * │   │   │   └── auth.js        # Gestion du token Firebase/Session
+ * │   │   │
+ * │   │   └── /assets            # Médias (images statiques, logos)
+ * │
+ * ├── /backend                   # ----- APPLICATION BACKEND (Python FastAPI) -----
+ * │   ├── main.py                # Point d'entrée de l'API REST
+ * │   ├── requirements.txt       # Dépendances Python (fastapi, uvicorn, openai, stripe...)
+ * │   ├── .env                   # Clés secrètes (Stripe, OpenAI, Firebase)
+ * │   │
+ * │   ├── /api
+ * │   │   ├── auth.py            # Routes d'authentification
+ * │   │   ├── users.py           # Routes de gestion des profils
+ * │   │   ├── services.py        # Routes pour la marketplace
+ * │   │   └── ai_assistant.py    # Routes de l'assistant OpenAI
+ * │   │
+ * │   ├── /core
+ * │   │   ├── config.py          # Chargement variables d'environnement
+ * │   │   └── security.py        # Vérification JWT et mots de passe
+ * │   │
+ * │   └── /db                    # Modèles et appels base de données
+ * │       └── firestore.py       # Wrapper de connexion Firestore
+ */

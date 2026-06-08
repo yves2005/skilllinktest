@@ -1,0 +1,6 @@
+{
+  "name": "SkillLink",
+  "description": "Plateforme web de mise en relation de clients avec des freelances et artisans.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
