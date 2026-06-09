@@ -1,20 +1,24 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Application de Freelance
 
-# Run and deploy your AI Studio app
+Bienvenue sur l'application de mise en relation Freelance.
 
-This contains everything you need to run your app locally.
+## Fonctionnalités Principales
 
-View your app in AI Studio: https://ai.studio/apps/a30b6c01-78a3-4121-8c82-2d5f5569e9af
+### Profil Freelance
+- Visualisation des services proposés.
+- Système de notation des freelances basé sur les avis clients.
+- Historique et détails des projets réalisés.
 
-## Run Locally
+### Avis et Recommandations
+Les utilisateurs connectés peuvent :
+- **Ajouter un avis** sur le profil d'un freelance après avoir évalué ses services.
+- **Voir la moyenne des notes** de chaque freelance, calculée automatiquement à partir de tous les avis reçus.
+- **Supprimer un avis** qu'ils ont publié.
+- **Contacter le client** qui a publié un avis directement via la messagerie intégrée pour échanger sur son expérience.
 
-**Prerequisites:**  Node.js
+### Messagerie
+- Système de discussion en temps réel entre utilisateurs.
+- Possibilité d'initier une conversation suite à un avis client.
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+*Dernière mise à jour : 09/06/2026*

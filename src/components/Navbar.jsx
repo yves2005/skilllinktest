@@ -123,6 +123,16 @@ export const Navbar = () => {
                     <li><strong>Sélecteur de Langue :</strong> Traduit l'interface dans diverses langues proposées par le système.</li>
                     <li><strong>Manuel Dynamique :</strong> Accessible à tout moment, pouvant être affiché en plein écran et exportable en version PDF. Il inclut une barre de recherche en temps réel et un sommaire interactif.</li>
                 </ul>`
+            },
+            {
+                title: "8. Gestion des Avis et Recommandations",
+                desc: `Partagez vos expériences avec les freelances et interagissez avec la communauté.
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <li><strong>Ajouter un avis :</strong> Les utilisateurs connectés peuvent laisser une évaluation (note de 1 à 5) et un commentaire sur le profil d'un freelance.</li>
+                    <li><strong>Calcul de la note moyenne :</strong> Le système calcule automatiquement la moyenne des avis pour afficher une note globale fiable sur le profil du prestataire.</li>
+                    <li><strong>Gestion des avis :</strong> Vous pouvez supprimer les avis que vous avez publiés, et les prestataires ont la possibilité de supprimer les avis reçus sur leur profil.</li>
+                    <li><strong>Contacter un client :</strong> Si vous souhaitez échanger avec l'auteur d'un avis, utilisez le bouton "Contacter" pour initier une conversation privée via la messagerie.</li>
+                </ul>`
             }
         ];
 

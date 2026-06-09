@@ -6,7 +6,8 @@ import { showToast } from './components/Toast.js';
 import { openCommentsModal, closeCommentsModal, addComment } from './components/CommentsModal.js';
 import { openServiceInfoModal, closeServiceInfoModal } from './components/ServiceInfoModal.js';
 import { openAddReviewModal, closeAddReviewModal } from './components/AddReviewModal.js';
-import { collection, query, getDocs } from 'firebase/firestore';
+import { openFreelancerProfileModal, closeFreelancerProfileModal } from './components/FreelancerProfileModal.js';
+import { collection, query, getDocs, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from './services/firebase.js';
 
 window.AppState = AppState;
@@ -18,6 +19,45 @@ window.openServiceInfoModal = openServiceInfoModal;
 window.closeServiceInfoModal = closeServiceInfoModal;
 window.openAddReviewModal = openAddReviewModal;
 window.closeAddReviewModal = closeAddReviewModal;
+window.openFreelancerProfileModal = openFreelancerProfileModal;
+window.closeFreelancerProfileModal = closeFreelancerProfileModal;
+
+window.deleteReview = async (freelanceId, reviewId) => {
+    if (!confirm("Voulez-vous vraiment supprimer cet avis ?")) return;
+    try {
+        const freelanceDocRef = doc(db, 'users', freelanceId);
+        const reviewDocRef = doc(db, `users/${freelanceId}/reviews`, reviewId);
+        
+        // Fetch review to get rating
+        const reviewDoc = await getDoc(reviewDocRef);
+        const reviewRating = reviewDoc.data()?.rating || 0;
+        
+        // Fetch freelance to update rating
+        const freelanceDoc = await getDoc(freelanceDocRef);
+        const data = freelanceDoc.data();
+        const currentCount = data.reviewsCount || 0;
+        const currentRating = data.rating || 0;
+        
+        const newCount = Math.max(0, currentCount - 1);
+        const newRating = newCount > 0 ? ((currentRating * currentCount) - reviewRating) / newCount : 0;
+        
+        await deleteDoc(reviewDocRef);
+        await updateDoc(freelanceDocRef, {
+            reviewsCount: newCount,
+            rating: newRating
+        });
+        showToast("Avis supprimé avec succès");
+    } catch (err) {
+        console.error("Error deleting review:", err);
+        showToast("Erreur lors de la suppression de l'avis");
+    }
+};
+
+window.contactReviewer = async (authorId) => {
+    AppState.targetPartnerId = authorId;
+    AppState.currentPath = 'messaging';
+    AppState.notify();
+};
 
 window.loadCommentCounts = async () => {
     const badges = document.querySelectorAll('.comment-count-badge');

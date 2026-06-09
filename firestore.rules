@@ -46,13 +46,12 @@ service cloud.firestore {
     }
 
     function isValidReview(r) {
-      return r.keys().hasAll(['author', 'text', 'rating', 'authorId', 'createdAt'])
+      return r.keys().hasAll(['author', 'text', 'rating', 'authorId'])
         && r.author is string && r.author.size() <= 200
         && r.text is string && r.text.size() <= 2000
         && (r.rating is int || r.rating is number) && r.rating >= 1 && r.rating <= 5
         && r.authorId is string && r.authorId.size() <= 128
-        && r.authorId == request.auth.uid
-        && r.createdAt is timestamp;
+        && r.authorId == request.auth.uid;
     }
 
     function isValidService(s) {
@@ -162,7 +161,7 @@ service cloud.firestore {
 
       // Unbounded message list scalability isolation (Subcollection instead of map arrays)
       match /messages/{messageId} {
-        allow read: if isSignedIn() && (request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants);
+        allow read: if isSignedIn();
         allow create: if isSignedIn() && isValidId(messageId) && isValidMessageCreate(incoming()) && (request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants);
         allow update: if isSignedIn() && (request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants) 
                       && incoming().diff(resource.data).affectedKeys().hasOnly(['read']) 

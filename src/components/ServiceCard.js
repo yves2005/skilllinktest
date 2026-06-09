@@ -45,6 +45,9 @@ export const ServiceCard = (service) => {
                     <i data-lucide="message-square" class="w-4 h-4 mr-1.5"></i>
                     <span class="font-medium text-xs">Commentaires <span class="comment-count-badge text-indigo-600 dark:text-indigo-400 ml-1 font-bold" data-pub-id="${service.id}"></span></span>
                 </button>
+                <button class="flex items-center justify-center w-full px-4 py-2 border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white rounded-xl transition duration-200 z-10 relative cursor-pointer font-bold text-xs" onclick="event.preventDefault(); event.stopPropagation(); window.openFreelancerProfileModal('${service.authorId}')">
+                    <i data-lucide="user" class="w-4 h-4 mr-2"></i> Voir le profil
+                </button>
             </div>
         </div>
     </div>

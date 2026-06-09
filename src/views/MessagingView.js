@@ -588,6 +588,13 @@ export const MessagingView = {
             }
         };
 
+        // Check if there is a target partner set to start a chat with
+        if (AppState.targetPartnerId) {
+            const pid = AppState.targetPartnerId;
+            AppState.targetPartnerId = null; // consume it
+            startOrGoToConversation(pid);
+        }
+
         const renderMessages = () => {
             if (!messagesList) return;
 

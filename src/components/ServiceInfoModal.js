@@ -1,7 +1,7 @@
 import { AppState, DUMMY_SERVICES, DUMMY_FREELANCES } from '../state.js';
 import { auth, db, handleFirestoreError, OperationType } from '../services/firebase.js';
 import { showToast } from './Toast.js';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 export const closeServiceInfoModal = () => {
     const modal = document.getElementById('service-info-modal');
@@ -248,6 +248,24 @@ export const openServiceInfoModal = (serviceId) => {
                     // Persist to Cloud Firestore subcollection
                     try {
                         console.log("Saving review to Firestore:", authorFid, authorVal, textVal, ratingVal);
+                        
+                        // Update freelance rating and count in Firestore
+                        const freelanceDocRef = doc(db, 'users', authorFid);
+                        const freelanceDoc = await getDoc(freelanceDocRef);
+                        if (freelanceDoc.exists()) {
+                            const data = freelanceDoc.data();
+                            const currentCount = data.reviewsCount || 0;
+                            const currentRating = data.rating || 0;
+                            
+                            const newCount = currentCount + 1;
+                            const newRating = ((currentRating * currentCount) + ratingVal) / newCount;
+                            
+                            await updateDoc(freelanceDocRef, {
+                                reviewsCount: newCount,
+                                rating: newRating
+                            });
+                        }
+
                         await addDoc(collection(db, `users/${authorFid}/reviews`), {
                             author: authorVal,
                             authorId: auth.currentUser?.uid || 'anonymous',

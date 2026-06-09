@@ -292,6 +292,16 @@ export const ProfileView = {
                                 </div>
                             </div>
                             <p class="text-sm text-slate-600 font-medium italic">"${AppState.escapeHtml(r.text)}"</p>
+                            ${(AppState.user && (AppState.user.uid === AppState.profileData.id || AppState.user.uid === r.authorId)) ? `
+                                <div class="flex gap-2 mt-3 pt-3 border-t border-slate-50 justify-end">
+                                    ${(AppState.user.uid === AppState.profileData.id) ? `
+                                        <button onclick="window.deleteReview('${AppState.profileData.id}', '${r.id}')" class="text-xs font-bold text-red-500 hover:underline">Supprimer</button>
+                                    ` : ''}
+                                    ${(AppState.user.uid !== r.authorId && r.authorId !== 'anonymous') ? `
+                                        <button onclick="window.contactReviewer('${r.authorId}')" class="text-xs font-bold text-indigo-600 hover:underline">Contacter</button>
+                                    ` : ''}
+                                </div>
+                            ` : ''}
                         </div>
                     `).join('')}
                 </div>
@@ -326,10 +336,12 @@ export const ProfileView = {
                         day: '2-digit', month: '2-digit', year: 'numeric'
                     }) : "À l'instant";
                     fetchedReviews.push({
+                        id: docSnap.id,
                         author: data.author || "Client",
                         date: dateStr,
                         text: data.text || "",
-                        rating: data.rating || 5
+                        rating: data.rating || 5,
+                        authorId: data.authorId || 'anonymous'
                     });
                 });
                 

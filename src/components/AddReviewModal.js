@@ -1,7 +1,7 @@
 import { AppState } from '../state.js';
 import { auth, db, handleFirestoreError, OperationType } from '../services/firebase.js';
 import { showToast } from './Toast.js';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 export const closeAddReviewModal = () => {
     const modal = document.getElementById('add-review-modal');
@@ -49,6 +49,23 @@ export const openAddReviewModal = (freelanceId, freelanceName) => {
         }
         
         try {
+            // Update freelance rating and count in Firestore
+            const freelanceDocRef = doc(db, 'users', freelanceId);
+            const freelanceDoc = await getDoc(freelanceDocRef);
+            if (freelanceDoc.exists()) {
+                const data = freelanceDoc.data();
+                const currentCount = data.reviewsCount || 0;
+                const currentRating = data.rating || 0;
+                
+                const newCount = currentCount + 1;
+                const newRating = ((currentRating * currentCount) + ratingVal) / newCount;
+                
+                await updateDoc(freelanceDocRef, {
+                    reviewsCount: newCount,
+                    rating: newRating
+                });
+            }
+
             await addDoc(collection(db, `users/${freelanceId}/reviews`), {
                 author: authorVal,
                 authorId: auth.currentUser?.uid || 'anonymous',
